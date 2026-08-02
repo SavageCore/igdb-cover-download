@@ -14,13 +14,14 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@typescript/native": "npm:typescript@^7.0.2",
     "@typescript-eslint/eslint-plugin": "^8.14.0",
     "@typescript-eslint/parser": "^8.14.0",
     "eslint": "^10.8.0",
     "file-saver": "^2.0.5",
     "jszip": "^3.10.1",
     "nodemon": "^3.1.14",
-    "typescript": "^7.0.2",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vite": "^8.2.0",
     "vite-plugin-monkey": "^8.1.0",
     "vitest": "^4.1.10"
