@@ -1,3 +1,8 @@
+export const sanitizeFilename = (gameName: string) => {
+    const safeGameName = gameName.replace(/[^a-z0-9_\-& ]/gi, '_').trim();
+    return `${safeGameName}.jpg`;
+};
+
 const main = () => {
     let _observer: MutationObserver | null = null;
     let _lastImageCount = 0;
@@ -5,7 +10,7 @@ const main = () => {
     const _findImages = () => {
         // Find all images with the specific src pattern within #main-container
         // Example: https://images.igdb.com/igdb/image/upload/t_cover_big/co2xxq.webp
-        const _images = Array.from(document.querySelectorAll<HTMLImageElement>('#main-container img[src*="/image/upload/t_cover_big/"]'));
+        const _images = Array.from(document.querySelectorAll('#main-container img[src*="/image/upload/t_cover_big/"]'));
         if (_images.length > _lastImageCount) {
             // New images found, update count
             _lastImageCount = _images.length;
@@ -15,7 +20,7 @@ const main = () => {
                 _observer.disconnect();
                 _observer = null;
             }
-            const image = _images[0];
+            const image = _images[0] as HTMLImageElement | undefined;
             if (image) {
                 let src = image.src.replace(/\/t_cover_big\//, '/t_original/');
                 // Replace webp with jpg if necessary
@@ -25,9 +30,7 @@ const main = () => {
 
                 // Get game name from the image alt text
                 const gameName = image.alt.replace(/ cover$/, '');
-                // Ensure the game name is safe for filenames
-                const safeGameName = gameName.replace(/[^a-z0-9_\-& ]/gi, '_').trim();
-                const filename = safeGameName + '.jpg';
+                const filename = sanitizeFilename(gameName);
 
                 // Create a button to trigger download
                 const button = document.createElement('button');
@@ -76,4 +79,6 @@ const main = () => {
     _observer.observe(document.body, { childList: true, subtree: true });
 };
 
-main();
+if (typeof document !== 'undefined') {
+    main();
+}
